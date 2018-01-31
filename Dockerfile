@@ -19,27 +19,21 @@ RUN cp -v /opt/odbc/bin/myodbc-installer /usr/local/bin/
 RUN cp -v /opt/odbc/lib/* /usr/local/lib/
 RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC Driver" -t "Driver=/usr/local/lib/libmyodbc5w.so"
 
-
-
 # Get ESET Remote Administrator Server
-#ADD https://download.eset.com/com/eset/apps/business/era/server/linux/latest/server-linux-x86_64.sh /tmp/server-linux-x86_64.sh
-#RUN chmod +x /tmp/server-linux-x86_64.sh
+ADD https://download.eset.com/com/eset/apps/business/era/server/linux/latest/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
+RUN chmod +x /opt/server-linux-x86_64.sh
 
 # MySQL database settings
-#ARG DB_HOSTNAME=era-db
-#ENV DB_HOSTNAME=$DB_HOSTNAME
-
-#ENV DB_ADMIN_USERNAME root
-#ENV DB_ADMIN_PASSWORD Sisilla322
-#ENV DB_USER_USERNAME era
-#ENV DB_USER_PASSWORD Candela485
+ENV DB_HOSTNAME $DB_HOSTNAME
+ENV DB_ADMIN_USERNAME $DB_ADMIN_USERNAME
+ENV DB_ADMIN_PASSWORD $DB_ADMIN_PASSWORD
+ENV DB_USER_USERNAME $DB_USER_USERNAME
+ENV DB_USER_PASSWORD $DB_USER_PASSWORD
 
 # Application settings
-#ENV ERA_ADMINISTRATOR_PASSWORD Avalone334
-#ENV ERA_CERT_HOSTNAME era
-#ENV ERA_LOCALE it_IT
-
-#RUN echo The MySQL database should be available at ${DB_HOSTNAME}
+ENV ERA_ADMINISTRATOR_PASSWORD $ERA_ADMINISTRATOR_PASSWORD
+ENV ERA_CERT_HOSTNAME $ERA_CERT_HOSTNAME
+ENV ERA_LOCALE $ERA_LOCALE
 
 #RUN /tmp/server-linux-x86_64.sh \
 #    --db-driver "MySQL ODBC Driver" \
@@ -54,7 +48,7 @@ RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC Driver" -t "Driver=/usr
 #    --skip-license
 
 # Volume
-VOLUME /opt/eset/RemoteAdministrator
+VOLUME /etc/opt/eset/RemoteAdministrator
 
 # Ports
 EXPOSE 2222 2223
@@ -63,5 +57,6 @@ EXPOSE 2222 2223
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Command
-ADD run.sh /run.sh
-CMD ["/run.sh"]
+COPY run.sh /usr/local/bin/run.sh
+COPY install.sh /usr/local/bin/install.sh
+CMD ["/usr/local/bin/run.sh"]
