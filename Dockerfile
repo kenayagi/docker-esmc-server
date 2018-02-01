@@ -58,4 +58,5 @@ WORKDIR /opt/eset/
 # Command
 ADD run.sh /usr/local/bin/run.sh
 ADD install.sh /usr/local/bin/install.sh
+RUN chmod +x /usr/local/bin/run.sh /usr/local/bin/install.sh
 CMD ["/bin/sh","/usr/local/bin/run.sh"]
