@@ -7,12 +7,18 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y --no-install-recommends install \
-    unixodbc xvfb cifs-utils libqtwebkit4 krb5-user \
-    winbind ldap-utils libsasl2-modules-gssapi-mit wget
+    cifs-utils \
+    krb5-user \
+    ldap-utils \
+    libqtwebkit4 \
+    libsasl2-modules-gssapi-mit \
+    unixodbc \
+    wget \
+    winbind \
+    xvfb
 
 # Get ODBC Connector
 RUN mkdir -p /opt/odbc/
-WORKDIR /opt/odbc/
 ADD https://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.9-linux-debian8-x86-64bit.tar.gz /opt/odbc/mysql-connector-odbc.tar.gz
 RUN tar --strip-components=1 -x -f /opt/odbc/mysql-connector-odbc.tar.gz -C /opt/odbc/
 RUN cp -v /opt/odbc/bin/myodbc-installer /usr/local/bin/
@@ -35,28 +41,21 @@ ENV ERA_ADMINISTRATOR_PASSWORD $ERA_ADMINISTRATOR_PASSWORD
 ENV ERA_CERT_HOSTNAME $ERA_CERT_HOSTNAME
 ENV ERA_LOCALE $ERA_LOCALE
 
-#RUN /tmp/server-linux-x86_64.sh \
-#    --db-driver "MySQL ODBC Driver" \
-#    --db-hostname ${DB_HOSTNAME} \
-#    --db-admin-username ${DB_ADMIN_USERNAME} \
-#    --db-admin-password ${DB_ADMIN_PASSWORD} \
-#    --db-user-username ${DB_USER_USERNAME} \
-#    --db-user-password ${DB_USER_PASSWORD} \
-#    --server-root-password ${ERA_ADMINISTRATOR_PASSWORD} \
-#    --cert-hostname ${ERA_CERT_HOSTNAME} \
-#    --locale ${ERA_LOCALE} \
-#    --skip-license
-
 # Volume
-VOLUME /etc/opt/eset/RemoteAdministrator
+RUN mkdir -p /opt/eset/ /etc/opt/eset/ /var/opt/eset/ /var/log/eset/
+VOLUME /opt/eset/
+VOLUME /etc/opt/eset/
+VOLUME /var/opt/eset/
+VOLUME /var/log/eset/
 
 # Ports
 EXPOSE 2222 2223
 
 # Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /opt/odbc/
+WORKDIR /opt/eset/
 
 # Command
-COPY run.sh /usr/local/bin/run.sh
-COPY install.sh /usr/local/bin/install.sh
-CMD ["/usr/local/bin/run.sh"]
+ADD run.sh /usr/local/bin/run.sh
+ADD install.sh /usr/local/bin/install.sh
+CMD ["/bin/sh","/usr/local/bin/run.sh"]
