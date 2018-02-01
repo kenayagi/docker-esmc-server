@@ -1,3 +1,4 @@
 #!/bin/bash
 
-/opt/server-linux-x86_64.sh
+/usr/local/bin/install.sh
+/bin/bash
