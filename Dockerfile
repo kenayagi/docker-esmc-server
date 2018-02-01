@@ -7,11 +7,13 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y --no-install-recommends install \
+    ca-certificates \
     cifs-utils \
     krb5-user \
     ldap-utils \
     libqtwebkit4 \
     libsasl2-modules-gssapi-mit \
+    openssl \
     unixodbc \
     wget \
     winbind \
