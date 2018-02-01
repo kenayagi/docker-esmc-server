@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/tmp/server-linux-x86_64.sh \
+/opt/server-linux-x86_64.sh \
     --db-driver "MySQL ODBC Driver" \
     --db-hostname ${DB_HOSTNAME} \
     --db-admin-username ${DB_ADMIN_USERNAME} \
@@ -11,3 +11,4 @@
     --cert-hostname ${ERA_CERT_HOSTNAME} \
     --locale ${ERA_LOCALE} \
     --skip-license
+
