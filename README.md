@@ -1,2 +1,1 @@
-# docker-eset-era
-ESET Remote Administrator
+# ESET Remote Administrator Server
