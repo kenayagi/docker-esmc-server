@@ -21,7 +21,7 @@ RUN apt-get update && \
 
 # Get ODBC Connector
 RUN mkdir -p /opt/odbc/
-ADD https://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.9-linux-debian8-x86-64bit.tar.gz /opt/odbc/mysql-connector-odbc.tar.gz
+ADD https://dev.mysql.com/get/Downloads/Connector-ODBC/5.3/mysql-connector-odbc-5.3.10-linux-debian9-x86-64bit.tar.gz /opt/odbc/mysql-connector-odbc.tar.gz
 RUN tar --strip-components=1 -x -f /opt/odbc/mysql-connector-odbc.tar.gz -C /opt/odbc/
 RUN cp -v /opt/odbc/bin/myodbc-installer /usr/local/bin/
 RUN cp -v /opt/odbc/lib/* /usr/local/lib/
