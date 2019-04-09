@@ -13,6 +13,7 @@ RUN apt-get update && \
     ldap-utils \
     libqtwebkit4 \
     libsasl2-modules-gssapi-mit \
+    netcat \
     openssl \
     unixodbc \
     wget \
@@ -45,7 +46,6 @@ ENV ERA_LOCALE $ERA_LOCALE
 
 # Volume
 RUN mkdir -p /opt/eset/ /etc/opt/eset/ /var/opt/eset/ /var/log/eset/
-VOLUME /opt/eset/
 VOLUME /etc/opt/eset/
 VOLUME /var/opt/eset/
 VOLUME /var/log/eset/
