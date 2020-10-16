@@ -1,10 +1,10 @@
-FROM debian:9
+FROM debian:10
 
 # Set frontend
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
-RUN apt-get update && \
+RUN apt update && \
     apt-get -y upgrade && \
     apt-get -y --no-install-recommends install \
     ca-certificates \
@@ -18,7 +18,9 @@ RUN apt-get update && \
     unixodbc \
     wget \
     winbind \
-    xvfb
+    xvfb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Get ODBC Connector
 RUN mkdir -p /opt/odbc/
@@ -27,9 +29,10 @@ RUN tar --strip-components=1 -x -f /opt/odbc/mysql-connector-odbc.tar.gz -C /opt
 RUN cp -v /opt/odbc/bin/myodbc-installer /usr/local/bin/
 RUN cp -v /opt/odbc/lib/* /usr/local/lib/
 RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC Driver" -t "Driver=/usr/local/lib/libmyodbc5w.so"
+RUN rm -R /opt/odbc/
 
 # Get ESET Remote Administrator Server
-ADD https://download.eset.com/com/eset/apps/business/era/server/linux/latest/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
+ADD https://download.eset.com/com/eset/apps/business/era/server/linux/v7/7.2.2236.0/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
 RUN chmod +x /opt/server-linux-x86_64.sh
 
 # MySQL database settings
@@ -53,12 +56,11 @@ VOLUME /var/log/eset/
 # Ports
 EXPOSE 2222 2223
 
-# Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /opt/odbc/
-WORKDIR /opt/eset/
-
-# Command
+# Scripts
 ADD run.sh /usr/local/bin/run.sh
 ADD install.sh /usr/local/bin/install.sh
 RUN chmod +x /usr/local/bin/run.sh /usr/local/bin/install.sh
+
+# Command
+WORKDIR /opt/eset/
 CMD ["/bin/sh","/usr/local/bin/run.sh"]

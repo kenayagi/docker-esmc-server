@@ -1,0 +1,66 @@
+version: "2"
+
+services:
+  server:
+    image: kenayagi/esmc-server:7.2.2236.0
+    restart: always
+    volumes:
+      - ./srv/etc:/etc/opt/eset
+      - ./srv/var:/var/opt/eset
+      - ./srv/log:/var/log/eset
+    ports:
+      - "192.168.x.x:2222:2222"
+    networks:
+      - net
+    depends_on:
+      - db
+    environment:
+      - TZ=Europe/Rome
+      - DB_HOSTNAME=db
+      - DB_NAME=esmc
+      - DB_USER_USERNAME=esmc
+      - DB_USER_PASSWORD=ChangeThisPassword1
+      - ERA_ADMINISTRATOR_PASSWORD=ChangeThisPassword2
+      - ERA_HOSTNAME=esmc.domain.com
+      - ERA_CERT_HOSTNAME=esmc.domain.com
+      - ERA_LOCALE=it_IT
+
+  console:
+    image: kenayagi/esmc-console
+    restart: always
+    environment:
+      - TZ=Europe/Rome
+      - ERA_SRV_HOSTNAME=server
+    networks:
+      - net
+      - traefik_net
+    depends_on:
+      - server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.esmc.rule=Host(`esmc.domain.com`)"
+      - "traefik.http.services.esmc.loadbalancer.server.port=8080"
+      - "traefik.http.routers.esmc.tls.certresolver=le"
+
+  db:
+    # mkdir -p ./db/config
+    # echo -en "[mysqld]\nmax_allowed_packet=33M\ninnodb_log_file_size=100M\ninnodb_log_files_in_group=2\n" > ./db/config/custom.cnf
+    image: mysql:5.7.31
+    restart: always
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/config:/etc/mysql/conf.d
+    networks:
+      - net
+    environment:
+      - TZ=Europe/Rome
+      - MYSQL_ROOT_PASSWORD=ChangeThisPassword3
+      - MYSQL_DATABASE=esmc
+      - MYSQL_USER=esmc
+      - MYSQL_PASSWORD=ChangeThisPassword1
+
+networks:
+  net:
+  traefik_net:
+    external:
+      name: traefik_net
