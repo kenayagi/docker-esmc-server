@@ -2,7 +2,7 @@ version: "2"
 
 services:
   server:
-    image: kenayagi/esmc-server:7.2.2236.0
+    image: kenayagi/esmc-server
     restart: always
     volumes:
       - ./srv/etc:/etc/opt/eset
