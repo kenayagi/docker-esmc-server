@@ -1,1 +1,3 @@
-# ESET Remote Administrator Server
+# ESET Security Management Center
+
+## Server
