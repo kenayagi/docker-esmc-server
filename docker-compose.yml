@@ -2,7 +2,7 @@ version: "2"
 
 services:
   server:
-    image: kenayagi/esmc-server
+    image: kenayagi/esmc-server:7.2.2236.0
     restart: always
     volumes:
       - ./srv/etc:/etc/opt/eset
@@ -26,7 +26,7 @@ services:
       - ERA_LOCALE=it_IT
 
   console:
-    image: kenayagi/esmc-console
+    image: kenayagi/esmc-console:7.2.230.0
     restart: always
     environment:
       - TZ=Europe/Rome
