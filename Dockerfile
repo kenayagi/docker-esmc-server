@@ -32,7 +32,7 @@ RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC Driver" -t "Driver=/usr
 RUN rm -R /opt/odbc/
 
 # Get ESET Remote Administrator Server
-ADD https://download.eset.com/com/eset/apps/business/era/server/linux/v7/7.2.2236.0/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
+ADD https://download.eset.com/com/eset/apps/business/era/server/linux/v8/8.0.2216.0/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
 RUN chmod +x /opt/server-linux-x86_64.sh
 
 # MySQL database settings

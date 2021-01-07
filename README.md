@@ -1,3 +1,3 @@
 # ESET Security Management Center
 
-## Server 7.2.2236.0
+## Server 8.0.2216.0
