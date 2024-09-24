@@ -20,13 +20,16 @@ jobs:
       - name: get image name (stripping docker- prefix)
         id: strip_prefix
         run: |
-          repo_name=${{ github.repository##*/ }}
-          clean_name=${repo_name#docker-}
-          echo "::set-output name=clean_repo_name::$clean_name"
+          repo_name=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          image_name=${repo_name#docker-}
+          echo "repo name is: $repo_name"
+          echo "image name is: $image_name"
+          echo "::set-output name=image_name::$image_name"
       - name: get org name
         id: get_org
         run: |
-          org_name=${{ github.repository%%/* }}
+          org_name=$(echo "${{ github.repository }}" | cut -d'/' -f1)
+          echo "org name is: $org_name"
           echo "::set-output name=org_name::$org_name"
       - name: build and push docker image
         uses: docker/build-push-action@v4
