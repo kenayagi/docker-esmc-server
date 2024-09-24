@@ -29,7 +29,7 @@ ADD https://downloads.mysql.com/archives/get/p/10/file/mysql-connector-odbc-8.0.
 RUN tar --strip-components=1 -x -f /opt/odbc/mysql-connector-odbc.tar.gz -C /opt/odbc/
 RUN cp -v /opt/odbc/bin/myodbc-installer /usr/local/bin/
 RUN cp -vR /opt/odbc/lib/* /usr/local/lib/
-RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8a.so"
+RUN /usr/local/bin/myodbc-installer -a -d -n "MySQL ODBC Driver" -t "Driver=/usr/local/lib/libmyodbc8a.so"
 
 # Get ESET Remote Administrator Server
 ADD https://download.eset.com/com/eset/apps/business/era/server/linux/v11/11.1.768.0/server-linux-x86_64.sh /opt/server-linux-x86_64.sh
