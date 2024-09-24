@@ -31,7 +31,7 @@ jobs:
           org_name=$(echo "${{ github.repository }}" | cut -d'/' -f1)
           echo "org name is: $org_name"
           echo "::set-output name=org_name::$org_name"
-      - name: build and push docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         env:
           ACTIONS_RUNTIME_TOKEN: '' # https://gitea.com/gitea/act_runner/issues/119
@@ -41,10 +41,10 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ vars.DOCKERREGISTRY_HOST }}/${{ steps.get_org.outputs.org_name }}/${{ steps.get_name.outputs.image_name }}:${{ github.ref_name }}
-      - name: send telegram message
+      - name: Send job completion notification via Telegram
         uses: https://github.com/appleboy/telegram-action@master
         with:
           to: ${{ vars.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            [Docker] ${{ steps.get_org.outputs.org_name }}/${{ steps.strip_prefix.outputs.clean_repo_name }}:${{ github.ref_name }} has just been released on ${{ vars.DOCKERREGISTRY_HOST }} 🎉
+            [Docker] ${{ steps.get_org.outputs.org_name }}/${{ steps.get_name.outputs.image_name }}:${{ github.ref_name }} has just been released on ${{ vars.DOCKERREGISTRY_HOST }} 🎉
