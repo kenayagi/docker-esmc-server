@@ -18,6 +18,7 @@ RUN apt update && \
     procps \
     unixodbc \
     snmp \
+    supervisor \
     wget \
     winbind \
     xvfb && \
@@ -51,17 +52,19 @@ ENV ERA_LOCALE $ERA_LOCALE
 # Volume
 RUN mkdir -p /opt/eset/ /etc/opt/eset/ /var/opt/eset/ /var/log/eset/
 VOLUME /etc/opt/eset/
-VOLUME /var/opt/eset/
+VOLUME /opt/eset/
 VOLUME /var/log/eset/
+VOLUME /var/opt/eset/
 
 # Ports
 EXPOSE 2222 2223
 
 # Scripts
-ADD run.sh /usr/local/bin/run.sh
+ADD init.sh /usr/local/bin/init.sh
 ADD install.sh /usr/local/bin/install.sh
-RUN chmod +x /usr/local/bin/run.sh /usr/local/bin/install.sh
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN chmod +x /usr/local/bin/init.sh /usr/local/bin/install.sh
 
 # Command
 WORKDIR /opt/eset/
-CMD ["/bin/sh","/usr/local/bin/run.sh"]
+CMD ["/usr/bin/supervisord"]
