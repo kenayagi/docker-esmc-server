@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  IMAGE_TAG: ${{ vars.DOCKERREGISTRY_HOST }}/odoo/odoo:${{ github.ref_name }}
+  IMAGE_TAG: ${{ vars.DOCKERREGISTRY_HOST }}/${{ vars.DOCKERREGISTRY_ORG }}/esmc-server:${{ github.ref_name }}
 
 jobs:
   docker:
