@@ -15,6 +15,7 @@ RUN apt update && \
     lshw \
     netcat \
     openssl \
+    procps \
     unixodbc \
     snmp \
     wget \
