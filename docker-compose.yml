@@ -2,7 +2,7 @@ version: "2"
 
 services:
   server:
-    image: kenayagi/esmc-server:9.1.2301.0
+    image: kenayagi/esmc-server:11.1.768.0
     restart: always
     volumes:
       - ./srv/etc:/etc/opt/eset
@@ -26,7 +26,7 @@ services:
       - ERA_LOCALE=it_IT
 
   console:
-    image: kenayagi/esmc-console:9.1.292.0
+    image: kenayagi/esmc-console:11.1.149.0
     restart: always
     environment:
       - TZ=Europe/Rome
@@ -45,7 +45,7 @@ services:
   db:
     # mkdir -p ./db/config
     # echo -en "[mysqld]\nmax_allowed_packet=33M\ninnodb_log_file_size=100M\ninnodb_log_files_in_group=2\n" > ./db/config/custom.cnf
-    image: mysql:5.7.31
+    image: mysql:8.0.37
     restart: always
     volumes:
       - ./db/data:/var/lib/mysql
