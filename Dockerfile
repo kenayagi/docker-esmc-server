@@ -67,4 +67,4 @@ RUN chmod +x /usr/local/bin/init.sh /usr/local/bin/install.sh
 
 # Command
 WORKDIR /opt/eset/
-CMD ["/usr/bin/supervisord"]
+CMD /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
