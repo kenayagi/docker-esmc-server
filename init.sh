@@ -1,4 +1,4 @@
 #!/bin/bash
 
-while ! nc -z $DB_HOSTNAME 3306 ; do sleep 3; done
-[ -e /opt/eset/RemoteAdministrator/Server/ERAServer ] || /usr/local/bin/install.sh
+sleep 10s
+[ -e /etc/init.d/eraserver ] || /usr/local/bin/install.sh
